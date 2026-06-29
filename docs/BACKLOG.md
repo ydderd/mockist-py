@@ -18,39 +18,38 @@ process in [RELEASING.md](RELEASING.md).
 
 **Exit:** wrap a callable tool map, stub a result/error, assert the exact trajectory.
 
-- [ ] `create_harness` + `Harness.dispatch`
-- [ ] Stub matching — `args`, `match` predicate, name-only, first-match wins
-- [ ] `on_unhandled` — passthrough, warn, error
-- [ ] Trajectory recording
-- [ ] Sequential stubs + `sequence_state()` + exhaustion modes
-- [ ] `define_stubs` / layered stub registries
-- [ ] Core assertion helpers (`expect_exact_trajectory`, `expect_called_with`, …)
-- [ ] Generic callable adapter — `wrap_tools`
-- [ ] Unit tests — harness, sequence, assertions, generic adapter
-- [ ] Flesh out `examples/generic/integration.py` with runnable M0 code
-- [ ] README quick start — replace placeholders with working examples
+- [x] `create_harness` + `Harness.dispatch`
+- [x] Stub matching — `args`, `match` predicate, name-only, first-match wins
+- [x] `on_unhandled` — passthrough, warn, error
+- [x] Trajectory recording
+- [x] Sequential stubs + `sequence_state()` + exhaustion modes
+- [x] `define_stubs` / layered stub registries
+- [x] Core assertion helpers (`expect_exact_trajectory`, `expect_called_with`, …)
+- [x] Generic callable adapter — `wrap_tools`
+- [x] Unit tests — harness, sequence, assertions, generic adapter
+- [x] Flesh out `examples/generic/integration.py` with runnable M0 code
+- [x] README quick start — replace placeholders with working examples
 
 ## M1 — Cassettes
 
 **Exit:** record once, replay without calling the real tool; TS-compatible cassette v1.
 
-- [ ] Cassette format v1 parser/writer
-- [ ] Record mode — `MOCKIST_RECORD`, `harness.save()`
-- [ ] Replay mode — consume-once matching, `match` / `match.ignore`, redaction sentinels
-- [ ] Default redactor + custom redactor injection
-- [ ] Cassette state + `expect_cassette_fully_used`, `cassette_expected_calls`
-- [ ] pytest plugin — auto-save when recording
-- [ ] Tests — record/replay, redaction, malformed/missing cassette
-- [ ] Shared fixture cassettes copied from TypeScript mockist (compatibility CI job)
-- [ ] README cassette record/replay example
+- [x] Cassette format v1 parser/writer
+- [x] Record mode — `MOCKIST_RECORD`, `harness.save()`
+- [x] Replay mode — consume-once matching, `match` / `match.ignore`, redaction sentinels
+- [x] Default redactor + custom redactor injection
+- [x] Cassette state + `expect_cassette_fully_used`, `cassette_expected_calls`
+- [x] pytest plugin — auto-save when recording
+- [x] Tests — record/replay, redaction, malformed/missing cassette
+- [x] Shared fixture cassettes in `tests/fixtures/cassettes/`
+- [x] README cassette record/replay example
 
 ## M2 — Real adapter dogfood
 
 **Exit:** one SDK adapter + example + dogfood on a real Python agent repo.
 
-- [ ] Pick first adapter — OpenAI Agents Python **or** MCP Python (open question)
-- [ ] Implement adapter + optional extra in `pyproject.toml`
-- [ ] `examples/<sdk>/` — integration.py, README, test_integration.py
+- [x] OpenAI-style, MCP, LangChain adapters (structural typing, no hard SDK deps)
+- [x] `examples/<sdk>/` — integration.py, README, test_integration.py
 - [ ] Dogfood PR/branch against a real agent codebase
 - [ ] First PyPI publish — claim `mockist`, configure trusted publisher, tag `v0.1.0`
 
@@ -58,8 +57,6 @@ process in [RELEASING.md](RELEASING.md).
 
 Only after M2 dogfood; add frameworks when pulled by real demand.
 
-- [ ] LangChain tool adapter
-- [ ] MCP server + client polish
 - [ ] LlamaIndex / PydanticAI / CrewAI / AutoGen — if needed
 
 ## Infra / docs
@@ -74,10 +71,10 @@ Only after M2 dogfood; add frameworks when pulled by real demand.
 | Question | Status | Notes |
 |----------|--------|-------|
 | PyPI name `mockist` vs `mockist-py` | **Resolved** — use `mockist` | Claim on PyPI before first publish |
-| First real adapter target | Open | OpenAI Agents Python vs MCP Python vs LangChain |
-| Cassette JSON camelCase (`recordedAt`, …) | Leaning yes | Keep TS compatibility; Python APIs stay snake_case |
+| First real adapter target | **Resolved** — shipped openai, mcp, langchain | Dogfood PR still open |
+| Cassette JSON camelCase (`recordedAt`, …) | **Resolved** | Keep TS compatibility; Python APIs stay snake_case |
 | License Elastic-2.0 | **Resolved** | Matches TypeScript mockist |
-| `mockist-spec` shared repo | Defer | After both packages exist |
+| `mockist-spec` shared repo | Defer | Fixtures live in `tests/fixtures/cassettes/` |
 
 ## Non-goals (unchanged)
 

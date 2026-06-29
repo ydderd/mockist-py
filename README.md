@@ -7,7 +7,7 @@ mockist-py wraps the **agentic tool/skill boundary**. It does not mock the LLM,
 provider SDK, database, HTTP client, queue, or the internals of a tool's `execute`.
 It only controls and records the boundary where the agent calls your tools.
 
-**Status:** early — implementation spec only. See [docs/SPEC.md](docs/SPEC.md).
+**Status:** M0–M2 implemented — harness, cassettes, adapters. See [docs/SPEC.md](docs/SPEC.md).
 
 The TypeScript package ([@ydderd/mockist](https://github.com/ydderd/mockist)) is the
 shipping reference implementation and cassette format v1 authority.
@@ -34,18 +34,18 @@ git clone https://github.com/ydderd/mockist-py.git && cd mockist-py && uv sync
 
 ## Compatibility
 
-### Planned (MVP)
+### Supported
 
 | Library / surface | Adapter | Status |
 |-------------------|---------|--------|
-| Generic callables | `wrap_tools(tools, harness)` | M0 |
-| [OpenAI Agents Python](https://github.com/openai/openai-agents-python) | `wrap_openai_tools(tools, harness)` | M2 |
-| MCP **server** handlers | `wrap_mcp_handlers(handlers, harness)` | M2 |
-| MCP **client** calls | `create_mcp_client_interceptor(harness)` | M2 |
-| [LangChain](https://python.langchain.com/) tools | `wrap_langchain_tools(tools, harness)` | M3 (optional extra) |
-| pytest | `mockist_assert` fixture / plugin | M1 (optional extra) |
+| Generic callables | `wrap_tools(tools, harness)` | Shipped |
+| OpenAI-style local tools | `wrap_openai_tools(tools, harness)` | Shipped |
+| MCP **server** handlers | `wrap_mcp_handlers(handlers, harness)` | Shipped |
+| MCP **client** calls | `create_mcp_client_interceptor(harness)` | Shipped |
+| [LangChain](https://python.langchain.com/) tools | `wrap_langchain_tools(tools, harness)` | Shipped |
+| pytest | `mockist_assert` fixture / plugin | Shipped |
 
-Runnable wiring for each row: [`examples/`](examples/) (coming soon).
+Runnable wiring for each row: [`examples/`](examples/).
 
 ### Not supported (use something else)
 
@@ -71,8 +71,6 @@ mockist-py gives you a middle layer: deterministic tests for the agent's tool-us
 behavior.
 
 ## Quick start
-
-<!-- Filled in when M0 lands -->
 
 In your existing test, wrap the tools before passing them to the agent:
 
@@ -102,18 +100,13 @@ mockist-py sits between them.
 
 ## Stubbed error example
 
-<!-- Filled in when M0 lands -->
-
 ```py
+def raise_upstream(_input: dict) -> None:
+    raise RuntimeError("upstream 503")
+
 harness = create_harness(
     on_unhandled="error",
-    stubs=[
-        {
-            "name": "search",
-            "args": {"q": "billing"},
-            "result": lambda _input: (_ for _ in ()).throw(RuntimeError("upstream 503")),
-        },
-    ],
+    stubs=[{"name": "search", "args": {"q": "billing"}, "result": raise_upstream}],
 )
 ```
 
@@ -122,8 +115,6 @@ harness = create_harness(
 Cassettes are a feature, not the whole product: record a real tool-boundary run
 once, then replay the tool results in local/CI tests. Format is compatible with
 [@ydderd/mockist](https://github.com/ydderd/mockist) cassette v1.
-
-<!-- Filled in when M1 lands -->
 
 ```py
 harness = create_harness(
