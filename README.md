@@ -27,9 +27,9 @@ shipping reference implementation and cassette format v1 authority.
 **Poor fit:** you need to prove `execute` talks to Postgres correctly, or you use a framework with no hook/wrap point at the tool boundary (see [compatibility](#compatibility) below).
 
 ```bash
-# Not published yet — install from source once pyproject.toml lands
 pip install mockist
-# or: pip install mockist-py
+# dev from source:
+git clone https://github.com/ydderd/mockist-py.git && cd mockist-py && uv sync
 ```
 
 ## Compatibility
@@ -154,7 +154,10 @@ not record HTTP/DB calls inside your tool.
 ## Docs map
 
 - [Spec](docs/SPEC.md): full implementation requirements and milestones
+- [Backlog](docs/BACKLOG.md): ordered work and open questions
+- [Releasing](docs/RELEASING.md): CI/CD, PyPI trusted publishing, `uv version`
 - [Licensing](docs/LICENSING.md): Elastic License 2.0 summary for adopters
+- [Examples](examples/README.md): per-adapter integration guides
 - [mockist (TypeScript)](https://github.com/ydderd/mockist): shipping reference, cassette format, examples
 
 ## What not to use this for
