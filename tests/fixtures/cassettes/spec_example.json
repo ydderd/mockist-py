@@ -1,0 +1,16 @@
+{
+  "mockist_format_version": 1,
+  "recordedAt": "2026-06-29T18:04:00Z",
+  "calls": [
+    {
+      "name": "search",
+      "input": { "q": "billing" },
+      "output": { "hits": ["doc-1"] }
+    },
+    {
+      "name": "now",
+      "output": "2026-06-29T00:00:00Z",
+      "match": "name"
+    }
+  ]
+}
